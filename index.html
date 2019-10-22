@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Gallery</title>
+
+	<style type="text/css">
+		img.thumbnail{ width: 150px ;}
+		#large{ display: none; height: 400px}
+		.container{ position: relative; width: 150px; height: 150px; margin: 40px; display: inline-block;}
+		.info{ display: none; position: absolute; width: 150px; height: 150px; left: 0px; background-color: rgba(32, 32, 32, .8) }
+		p { color: #FFF ; padding-left: 5px;}
+		.name{ font-weight: bold; font-size: 1.4em}
+		.price{ font-size: 1.1em }
+		
+	</style>
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+	<script type="text/javascript">
+		Gallery = [
+			new Painting("Charlie and Sheba", "$180,000,000", "CharlieandShebathumbnail.jpeg", "CharlieandSheba.jpeg"),
+			new Painting("Dolled Up", "$60,000,000", "Ferretthumbnail.jpg", "Ferret.jpg"),
+			new Painting("Hope", "$240,000,000", "HOPEthumbnail.jpg", "HOPE.jpg"),
+			new Painting("Mnoa Lias", "$800,000,000", "MonaLisathumbnail.jpg", "MonaLisa.jpg"),
+			new Painting("Puppy Love", "$340,000,000", "PuppyLovethumbnail.jpg", "PuppyLove.jpg")
+		]
+
+		function Painting(name, price, small, large) {
+			this.name = name;
+			this.price = price;
+			this.small = small;
+			this.large = large;
+		}
+
+		$(document).ready(function(){
+
+			for(var i=0; i < Gallery.length ; i++){
+				$("#pics").append('<div class="container"><img class="thumbnail" src="' + Gallery[i].small + '" id="' + i + '">' +
+					"<div class='info'><p class='name'>" + Gallery[i].name + "</p><p class = 'price'>" + Gallery[i].price + "</p></div></div>"
+					);
+			}
+		
+			var blank = true;
+
+			$(".container").hover(
+				
+				function () {
+					if (blank) {
+						var x = $(this).children()[0].id;
+						$("#large").attr("src", Gallery[x].large)
+						$("#large").fadeIn();
+						blank = false;
+					}
+				},
+				
+				function () {
+					$("#large").fadeOut('fast', function(){
+						$("#large").attr("src", "");
+						blank = true;
+					})
+
+				}
+			);
+
+
+			$(".thumbnail").click( function(){
+				var $info = $(this).next()
+				$info.css("display", "inline");
+				$info.delay(5000).fadeOut("fast");
+			})
+		
+		});
+	</script>
+</head>
+
+<body>
+
+	<div id="pics"></div>
+	<img src="" id="large">
+
+</body>
+</html>
